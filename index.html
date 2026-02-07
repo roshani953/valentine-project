@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Valentine 💖</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+* {
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  margin: 0;
+  height: 100vh;
+  background: linear-gradient(135deg, #ff758c, #ff7eb3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* Falling hearts */
+.heart {
+  position: fixed;
+  top: -10px;
+  color: #ff4d6d;
+  font-size: 20px;
+  animation: fall linear forwards;
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(110vh);
+    opacity: 0;
+  }
+}
+
+.screen {
+  display: none;
+  width: 90%;
+  max-width: 420px;
+  background: white;
+  border-radius: 22px;
+  padding: 30px;
+  text-align: center;
+  box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+  animation: pop 0.4s ease;
+}
+
+.screen.active {
+  display: block;
+}
+
+@keyframes pop {
+  from { transform: scale(0.85); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+h1, h2 {
+  color: #ff4d6d;
+  text-decoration: lightcoral;
+}
+
+button {
+  padding: 12px 28px;
+  border: none;
+  border-radius: 30px;
+  font-size: 16px;
+  cursor: pointer;
+  margin: 10px;
+  transition: 0.3s;
+}
+
+.yes-btn {
+  background: #ff4d6d;
+  color: white;
+}
+
+.yes-btn:hover {
+  transform: scale(1.1);
+}
+
+.no-btn {
+  background: #ddd;
+  color: black;
+  position: absolute;
+}
+.neon-flicker {
+    color: #ff5edf;
+    animation : flicker 1.5s infinite alternate;
+}
+@keyframes flicker {
+    0% {
+        text-shadow: 0 0 5px #ff5edf, 0 0 10px #ff5edf;
+        opacity: 1;
+    }
+    100% {
+        text-shadow: 0 0 20px #ff5edf, 0 0 40px #ff5edf;
+        opacity: 0.9;
+    }
+}
+img {
+  width: 220px;
+  margin-bottom: 20px;
+}
+</style>
+</head>
+
+<body>
+<!-- Sound -->
+<audio id="popSound">
+  <source src="goldensoundlabs-love-in-my-coffee-458690.mp3" type="audio/mpeg">
+</audio>
+
+<!-- Screen 1 -->
+<div class="screen active" id="screen1">
+  <h2>Hey 👋</h2>
+  <h2>May I ask you something?</h2>
+  <button class="yes-btn" onclick="goToScreen2()">Yes 💕</button>
+</div>
+
+<!-- Screen 2 -->
+<div class="screen" id="screen2">
+  <h1 id="valText"></h1>
+  <button class="yes-btn" onclick="goToScreen3()">Yes 😍</button>
+  <button class="no-btn" id="noBtn">No 🙃</button>
+</div>
+
+<!-- Screen 3 -->
+<div class="screen" id="screen3">
+  <img src="cutecat.jpg">
+  <h1 class="neon-flicker">Yaaayyyy 🎉💖</h1>
+  <p class="neon-flicker">You have made my day 🥹💝</p>
+</div>
+
+<script>
+const crushName = "Roshani"; // 🔴 CHANGE NAME HERE
+
+const screen1 = document.getElementById("screen1");
+const screen2 = document.getElementById("screen2");
+const screen3 = document.getElementById("screen3");
+const noBtn = document.getElementById("noBtn");
+const popSound = document.getElementById("popSound");
+
+document.getElementById("valText").innerText =
+  `Will you be my Valentine, ${crushName}? 💘`;
+
+function goToScreen2() {
+  screen1.classList.remove("active");
+  screen2.classList.add("active");
+  moveNoButton();
+}
+
+function goToScreen3() {
+  popSound.play();
+  screen2.classList.remove("active");
+  screen3.classList.add("active");
+  startHearts();
+}
+
+function moveNoButton() {
+  const x = Math.random() * (window.innerWidth - 120);
+  const y = Math.random() * (window.innerHeight - 120);
+  noBtn.style.left = x + "px";
+  noBtn.style.top = y + "px";
+}
+
+noBtn.addEventListener("mouseover", moveNoButton);
+noBtn.addEventListener("click", moveNoButton);
+
+/* Heart rain */
+function startHearts() {
+  setInterval(() => {
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.innerHTML = "❤️";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.animationDuration = (2 + Math.random() * 3) + "s";
+    document.body.appendChild(heart);
+
+    setTimeout(() => {
+      heart.remove();
+    }, 5000);
+  }, 300);
+}
+</script>
+
+</body>
+</html>
